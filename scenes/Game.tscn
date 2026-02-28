@@ -1,8 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://game"]
+[gd_scene load_steps=11 format=3 uid="uid://game"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/collectible_spawner.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/depth_manager.gd" id="6"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(40, 20)
+
+[sub_resource type="GradientTexture2D" id="2"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1")
@@ -24,7 +32,7 @@ color = Color(1, 1, 1, 1)
 script = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = RectangleShape2D.new()
+shape = SubResource("1")
 
 [node name="SubmarineSprite" type="ColorRect" parent="Player"]
 offset_left = -20.0
@@ -34,7 +42,7 @@ offset_bottom = 10.0
 color = Color(0.8, 0.8, 0.2, 1)
 
 [node name="EngineLight" type="PointLight2D" parent="Player"]
-texture = GradientTexture2D.new()
+texture = SubResource("2")
 energy = 1.5
 texture_scale = 3.0
 
@@ -46,10 +54,13 @@ limit_top = -360
 limit_bottom = 500000
 
 [node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("4")
 
 [node name="CollectibleSpawner" type="Node2D" parent="."]
+script = ExtResource("5")
 
 [node name="DepthManager" type="Node" parent="."]
+script = ExtResource("6")
 
 [node name="LightController" type="Node" parent="."]
 

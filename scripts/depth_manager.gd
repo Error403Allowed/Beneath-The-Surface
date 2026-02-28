@@ -29,7 +29,7 @@ func setup(p_player, p_bg, p_mod, p_spawner) -> void:
 func _process(_delta: float) -> void:
 	if player == null:
 		return
-	current_depth = abs(player.global_position.y) / 10.0
+	current_depth = max(player.global_position.y, 0.0) / 10.0
 	if current_depth > max_depth:
 		max_depth = current_depth
 	_check_zone()

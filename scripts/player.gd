@@ -33,7 +33,7 @@ func _physics_process(delta: float) -> void:
 	_apply_pressure(delta)
 	emit_signal("stats_changed", oxygen, hull)
 
-func _handle_movement(delta: float) -> void:
+func _handle_movement(_delta: float) -> void:
 	var dir := Vector2.ZERO
 	if Input.is_action_pressed("move_up"):    dir.y -= 1
 	if Input.is_action_pressed("move_down"):  dir.y += 1
