@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # ---- Config ----
-var speed: float = 80.0
+var speed: float = 160.0
 var detection_range: float = 300.0
 var damage_per_second: float = 8.0
 var health: float = 30.0

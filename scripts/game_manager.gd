@@ -18,7 +18,9 @@ func _ready() -> void:
 
 func _on_player_died(reason: String) -> void:
 	await get_tree().create_timer(1.0).timeout
-	var go = load("res://scenes/GameOver.tscn").instantiate()
-	get_tree().root.add_child(go)
-	go.setup(depth_manager_node.max_depth, reason)
-	queue_free()
+	# Store stats so GameOver can read them after scene change
+	var max_d = depth_manager_node.max_depth
+	var death_reason = reason
+	get_tree().set_meta("max_depth", max_d)
+	get_tree().set_meta("death_reason", death_reason)
+	get_tree().change_scene_to_file("res://scenes/GameOver.tscn")

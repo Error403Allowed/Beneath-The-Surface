@@ -1,7 +1,7 @@
 extends Node2D
 
 # ---- Config ----
-var spawn_interval: float = 2.0
+var spawn_interval: float = 1.4
 var max_enemies: int = 12
 var spawn_timer: float = 0.0
 var boss_depth_threshold: float = 4000.0
@@ -53,16 +53,22 @@ func _make_enemy(is_boss: bool) -> CharacterBody2D:
 	# Collision
 	var col = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(30, 20) if not is_boss else Vector2(60, 40)
+	if is_boss:
+		shape.size = Vector2(60, 40)
+	else:
+		shape.size = Vector2(30, 20)
 	col.shape = shape
 	e.add_child(col)
 
 	# Sprite
 	var sprite = Sprite2D.new()
 	sprite.name = "EnemySprite"
-	sprite.texture = load("res://assets/squid.png") if is_boss else load("res://assets/piranha.png")
-	var scale_size = 0.15 if not is_boss else 0.25
-	sprite.scale = Vector2(scale_size, scale_size)
+	if is_boss:
+		sprite.texture = load("res://assets/squid.png")
+		sprite.scale = Vector2(0.25, 0.25)
+	else:
+		sprite.texture = load("res://assets/piranha.png")
+		sprite.scale = Vector2(0.15, 0.15)
 	e.add_child(sprite)
 
 	# Spawn offset to the side of player

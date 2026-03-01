@@ -5,6 +5,10 @@ func _ready() -> void:
 	$Card/VBox/MenuButton.pressed.connect(_on_menu_pressed)
 	_style_button($Card/VBox/RetryButton, Color(0.1, 0.4, 0.7), Color(0.15, 0.55, 0.9))
 	_style_button($Card/VBox/MenuButton, Color(0.05, 0.15, 0.3), Color(0.08, 0.25, 0.45))
+	# Read stats stored by game_manager before scene changed
+	var depth = get_tree().get_meta("max_depth", 0.0)
+	var reason = get_tree().get_meta("death_reason", "")
+	setup(depth, reason)
 
 func setup(depth: float, reason: String) -> void:
 	$Card/VBox/DepthReached.text = "MAX DEPTH: %dm" % int(depth)
@@ -87,7 +91,7 @@ func _style_button(btn: Button, normal_color: Color, hover_color: Color) -> void
 func _on_retry_pressed() -> void:
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($Card, "modulate:a", 0.0, 0.3)
-	tween.tween_callback(func(): get_tree().reload_current_scene())
+	tween.tween_callback(func(): get_tree().change_scene_to_file("res://scenes/Game.tscn"))
 
 func _on_menu_pressed() -> void:
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)

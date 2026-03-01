@@ -59,10 +59,7 @@ func _handle_movement(_delta: float) -> void:
 	velocity = dir * speed
 	move_and_slide()
 
-	# Clamp horizontal so sub stays on screen
 	position.x = clamp(position.x, -600.0, 600.0)
-	# Don't let sub go above the surface
-	position.y = clamp(position.y, 0.0, 9999999.0)
 
 func _drain_oxygen(delta: float) -> void:
 	oxygen -= oxygen_drain_rate * delta
