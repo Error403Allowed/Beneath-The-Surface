@@ -25,6 +25,16 @@ func setup(p_player, p_bg, p_mod, p_spawner) -> void:
 	background = p_bg
 	canvas_modulate = p_mod
 	spawner = p_spawner
+	# Apply zone 0 instantly (no tween) so lighting is correct from frame 1
+	var z = ZONES[0]
+	if background:
+		background.color = z.color
+	if canvas_modulate:
+		canvas_modulate.color = Color(z.light, z.light, z.light + 0.1, 1.0)
+	if player:
+		player.pressure_damage_rate = z.pressure
+	if spawner:
+		spawner.spawn_interval = z.spawn
 
 func _process(_delta: float) -> void:
 	if player == null:
@@ -59,6 +69,21 @@ func _apply_zone(z: Dictionary) -> void:
 
 	if spawner:
 		spawner.spawn_interval = z.spawn
+
+	# Spawn ruins columns when entering Ancient Ruins zone
+	if z.name == "ANCIENT RUINS" and player:
+		_spawn_ruins_columns()
+
+func _spawn_ruins_columns() -> void:
+	for i in range(12):
+		var col = Sprite2D.new()
+		col.texture = load("res://assets/ruins.png")
+		col.scale = Vector2(0.18, 0.18)
+		col.z_index = -5
+		var px = randf_range(-580.0, 580.0)
+		var py = player.global_position.y + randf_range(100.0, 4000.0)
+		col.global_position = Vector2(px, py)
+		get_tree().current_scene.add_child(col)
 
 func get_zone_name() -> String:
 	return ZONES[current_zone_index].name

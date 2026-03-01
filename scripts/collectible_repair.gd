@@ -6,13 +6,10 @@ var player = null
 
 func setup(p_player) -> void:
 	player = p_player
-	# Draw a simple green rect as visual
-	var rect = ColorRect.new()
-	rect.size = Vector2(18, 18)
-	rect.offset_left = -9
-	rect.offset_top = -9
-	rect.color = Color(0.2, 1.0, 0.4, 0.9)
-	add_child(rect)
+	var sprite = Sprite2D.new()
+	sprite.texture = load("res://assets/repair.png")
+	sprite.scale = Vector2(0.12, 0.12)
+	add_child(sprite)
 
 func _process(_delta: float) -> void:
 	if player == null:

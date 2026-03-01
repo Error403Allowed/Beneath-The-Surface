@@ -18,16 +18,22 @@ func _process(delta: float) -> void:
 	if player == null or player.is_dead:
 		return
 
+	_cull_distant_enemies()
+
 	spawn_timer += delta
 	if spawn_timer >= spawn_interval:
 		spawn_timer = 0.0
 		_try_spawn_enemy()
 
-	# Spawn boss if deep enough and not yet spawned
 	if depth_manager and not boss_spawned:
 		if depth_manager.current_depth >= boss_depth_threshold:
 			_spawn_boss()
 			boss_spawned = true
+
+func _cull_distant_enemies() -> void:
+	for child in get_children():
+		if child.global_position.distance_to(player.global_position) > 900.0:
+			child.queue_free()
 
 func _try_spawn_enemy() -> void:
 	if get_child_count() >= max_enemies:
@@ -51,13 +57,12 @@ func _make_enemy(is_boss: bool) -> CharacterBody2D:
 	col.shape = shape
 	e.add_child(col)
 
-	# Sprite (simple colored rect)
-	var sprite = ColorRect.new()
+	# Sprite
+	var sprite = Sprite2D.new()
 	sprite.name = "EnemySprite"
-	sprite.size = Vector2(30, 20) if not is_boss else Vector2(60, 40)
-	sprite.offset_left = -15 if not is_boss else -30
-	sprite.offset_top = -10 if not is_boss else -20
-	sprite.color = Color(0.2, 0.6, 0.9, 1) if not is_boss else Color(0.8, 0.1, 0.1, 1)
+	sprite.texture = load("res://assets/squid.png") if is_boss else load("res://assets/piranha.png")
+	var scale_size = 0.15 if not is_boss else 0.25
+	sprite.scale = Vector2(scale_size, scale_size)
 	e.add_child(sprite)
 
 	# Spawn offset to the side of player

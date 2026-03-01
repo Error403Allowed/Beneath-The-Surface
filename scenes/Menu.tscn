@@ -11,39 +11,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.02, 0.05, 0.1, 1)
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="Card" type="PanelContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-theme_override_constants/separation = 20
+offset_left = -240.0
+offset_top = -220.0
+offset_right = 240.0
+offset_bottom = 220.0
 
-[node name="Title" type="Label" parent="VBox"]
+[node name="VBox" type="VBoxContainer" parent="Card"]
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Card/VBox"]
 text = "BENEATH THE SURFACE"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
 
-[node name="Subtitle" type="Label" parent="VBox"]
+[node name="Subtitle" type="Label" parent="Card/VBox"]
 text = "How deep can you go?"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.6, 0.8, 0.9, 1)
+theme_override_colors/font_color = Color(0.5, 0.75, 0.9, 1)
 
-[node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Spacer" type="Control" parent="Card/VBox"]
+custom_minimum_size = Vector2(0, 24)
 
-[node name="StartButton" type="Button" parent="VBox"]
+[node name="StartButton" type="Button" parent="Card/VBox"]
 text = "DIVE IN"
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(340, 54)
 theme_override_font_sizes/font_size = 20
 
-[node name="QuitButton" type="Button" parent="VBox"]
+[node name="QuitButton" type="Button" parent="Card/VBox"]
 text = "SURFACE (QUIT)"
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(340, 48)
 theme_override_font_sizes/font_size = 16

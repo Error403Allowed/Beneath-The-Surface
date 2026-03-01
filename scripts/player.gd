@@ -18,11 +18,14 @@ var is_dead: bool = false
 signal died(reason: String)
 signal stats_changed(oxygen: float, hull: float)
 
+@onready var sub_sprite: Sprite2D = $SubmarineSprite
+
+const TEX_HEALTHY  = preload("res://assets/sub_normal.png")
+const TEX_DAMAGED  = preload("res://assets/sub_broken.png")
+const TEX_CRITICAL = preload("res://assets/sub_verybroken.png")
+
 func _ready() -> void:
-	# Size the collision shape
-	var shape = RectangleShape2D.new()
-	shape.size = Vector2(40, 20)
-	$CollisionShape2D.shape = shape
+	pass
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -32,6 +35,16 @@ func _physics_process(delta: float) -> void:
 	_drain_oxygen(delta)
 	_apply_pressure(delta)
 	emit_signal("stats_changed", oxygen, hull)
+	_update_sprite()
+
+func _update_sprite() -> void:
+	var pct = hull / hull_max
+	if pct > 0.66:
+		sub_sprite.texture = TEX_HEALTHY
+	elif pct > 0.33:
+		sub_sprite.texture = TEX_DAMAGED
+	else:
+		sub_sprite.texture = TEX_CRITICAL
 
 func _handle_movement(_delta: float) -> void:
 	var dir := Vector2.ZERO
@@ -48,8 +61,8 @@ func _handle_movement(_delta: float) -> void:
 
 	# Clamp horizontal so sub stays on screen
 	position.x = clamp(position.x, -600.0, 600.0)
-	# Don't let sub go above starting area
-	position.y = clamp(position.y, -300.0, 9999999.0)
+	# Don't let sub go above the surface
+	position.y = clamp(position.y, 0.0, 9999999.0)
 
 func _drain_oxygen(delta: float) -> void:
 	oxygen -= oxygen_drain_rate * delta

@@ -1,0 +1,3 @@
+res://scripts/menu.gd
+res://scripts/depth_manager.gd
+res://scripts/enemy_spawner.gd

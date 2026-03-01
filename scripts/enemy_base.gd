@@ -24,10 +24,8 @@ func setup(p_player: CharacterBody2D, boss: bool = false) -> void:
 		health = 120.0
 		damage_per_second = 15.0
 		detection_range = 450.0
-		# Make the sprite bigger for boss
 		if has_node("EnemySprite"):
-			$EnemySprite.size = Vector2(50, 30)
-			$EnemySprite.color = Color(0.8, 0.1, 0.1, 1)
+			$EnemySprite.scale = Vector2(0.25, 0.25)
 	patrol_dir = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 
 func _physics_process(delta: float) -> void:
@@ -60,7 +58,7 @@ func _patrol(delta: float) -> void:
 	velocity = patrol_dir * speed * 0.5
 	move_and_slide()
 
-func _chase(delta: float) -> void:
+func _chase(_delta: float) -> void:
 	var dir = (player.global_position - global_position).normalized()
 	velocity = dir * speed
 	move_and_slide()
